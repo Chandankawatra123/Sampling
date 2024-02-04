@@ -1,10 +1,17 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier  # Add this import
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 from imblearn.over_sampling import RandomOverSampler, SMOTE, ADASYN
-from imblearn.under_sampling import RandomUnderSampler
+from imblearn.under_sampling import RandomUnderSampler, TomekLinks
 from imblearn.ensemble import BalancedRandomForestClassifier
 from sklearn.metrics import accuracy_score
+
+# ... (rest of your code)
+
 # Load the original dataset from CSV
 file_path = r'C:\Users\91896\Desktop\SamplinG\Creditcard_data.csv'
 df = pd.read_csv(file_path)
@@ -56,16 +63,19 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # Define models
 models = {
     'RandomForest': RandomForestClassifier(random_state=42),
-    'RandomForestBalanced': BalancedRandomForestClassifier(random_state=42),
+    'DecisionTree': DecisionTreeClassifier(random_state=42),
+    'LogisticRegression': LogisticRegression(random_state=42),
+    'SVM': SVC(random_state=42),
+    'kNN': KNeighborsClassifier(),
 }
 
-# Sampling techniques
+# Additional sampling techniques
 sampling_techniques = {
     'RandomOversampling': RandomOverSampler(random_state=42),
     'RandomUndersampling': RandomUnderSampler(random_state=42),
     'SMOTE': SMOTE(random_state=42),
     'ADASYN': ADASYN(random_state=42),
-    'BalancedSubsampling': None,  # No need for balancing, as the algorithm is inherently balanced
+    'TomekLinks': TomekLinks(sampling_strategy='majority'),
 }
 
 # Apply sampling techniques and evaluate models
